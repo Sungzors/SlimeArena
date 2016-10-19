@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="app_name">slimetest</string>
+  <string name="slime_arena_demo">Slime Arena Demo</string>
+  <string name="start">Start</string>
+</resources>

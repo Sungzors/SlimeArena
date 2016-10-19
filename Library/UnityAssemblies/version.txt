@@ -1,5 +1,5 @@
 5.5.0b7:2.3.0.0
-StandaloneWindows
+Android
 C:/Program Files/Unity 5.5.0b7/Editor/Data/Managed/UnityEngine.dll
 C:/Program Files/Unity 5.5.0b7/Editor/Data/UnityExtensions/Unity/Advertisements/UnityEngine.Advertisements.dll
 C:/Program Files/Unity 5.5.0b7/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll
