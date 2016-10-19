@@ -1,6 +1,7 @@
 package com.company.slimetest;
 
 import android.app.Activity;
+import android.app.Instrumentation;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.PixelFormat;
@@ -10,6 +11,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.LinearLayout;
 
 import com.unity3d.player.UnityPlayer;
 
@@ -17,7 +19,13 @@ public class UnityPlayerActivity extends Activity
 {
 	protected UnityPlayer mUnityPlayer; // don't change the name of this variable; referenced from native code
 
-	// Setup activity layout
+    LinearLayout.LayoutParams buttonParams;
+    UnityPlayer.LayoutParams rlParams;
+    LinearLayout rlayout;
+    Button myButton;
+    Button downButton;
+
+    // Setup activity layout
 	@Override protected void onCreate (Bundle savedInstanceState)
 	{
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -26,23 +34,57 @@ public class UnityPlayerActivity extends Activity
 		getWindow().setFormat(PixelFormat.RGBX_8888); // <--- This makes xperia play happy
 
 		mUnityPlayer = new UnityPlayer(this);
-
+        setButton();
 		mUnityPlayer.requestFocus();
-		Button myButton = new Button(this);
-		myButton.setText("Back");
-		UnityPlayer.LayoutParams buttonParams =
-				new UnityPlayer.LayoutParams(UnityPlayer.LayoutParams.WRAP_CONTENT, UnityPlayer.LayoutParams.WRAP_CONTENT);
+
+		mUnityPlayer.addView(rlayout, rlParams);
+		setContentView(mUnityPlayer);
+
+	}
+
+    void setButton(){
+        rlayout = new LinearLayout(this);
+        rlParams = new UnityPlayer.LayoutParams(UnityPlayer.LayoutParams.MATCH_PARENT, UnityPlayer.LayoutParams.WRAP_CONTENT);
+        rlayout.setOrientation(rlayout.HORIZONTAL);
+        myButton = new Button(this);
+        myButton.setText("Back");
+        buttonParams =
+                new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+
         myButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(UnityPlayerActivity.this, MainActivity.class);
+                mUnityPlayer.quit();
                 startActivity(intent);
+
             }
         });
-		mUnityPlayer.addView(myButton, buttonParams);
-		setContentView(mUnityPlayer);
+        rlayout.addView(myButton, buttonParams);
 
-	}
+        downButton = new Button(this);
+        downButton.setText("Jump");
+
+        downButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            Instrumentation inst = new Instrumentation();
+                            inst.sendKeyDownUpSync(KeyEvent.KEYCODE_DPAD_DOWN);
+                            Thread.sleep(2000);
+                        }
+                        catch(InterruptedException e){
+                        }
+                    }
+                }).start();
+
+            }
+        });
+        rlayout.addView(downButton, buttonParams);
+    }
 
 	// Quit Unity
 	@Override protected void onDestroy ()
