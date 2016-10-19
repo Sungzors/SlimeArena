@@ -1,7 +1,7 @@
 package com.company.slimetest;
 
-import com.unity3d.player.*;
 import android.app.Activity;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.PixelFormat;
 import android.os.Bundle;
@@ -9,11 +9,9 @@ import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.FrameLayout;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
+
+import com.unity3d.player.UnityPlayer;
 
 public class UnityPlayerActivity extends Activity
 {
@@ -31,11 +29,19 @@ public class UnityPlayerActivity extends Activity
 
 		mUnityPlayer.requestFocus();
 		Button myButton = new Button(this);
-		myButton.setText("Click Me");
+		myButton.setText("Back");
 		UnityPlayer.LayoutParams buttonParams =
 				new UnityPlayer.LayoutParams(UnityPlayer.LayoutParams.WRAP_CONTENT, UnityPlayer.LayoutParams.WRAP_CONTENT);
+        myButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(UnityPlayerActivity.this, MainActivity.class);
+                startActivity(intent);
+            }
+        });
 		mUnityPlayer.addView(myButton, buttonParams);
 		setContentView(mUnityPlayer);
+
 	}
 
 	// Quit Unity
