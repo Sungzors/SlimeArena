@@ -13,6 +13,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     Button mDebugButton;
     ImageView mSlime;
 
+    static {
+        System.loadLibrary("custom_jni");
+    }
+
+    public native String getMsgFromJni();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

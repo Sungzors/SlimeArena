@@ -56,6 +56,7 @@ public class UnityPlayerActivity extends Activity
             public void onClick(View v) {
                 Intent intent = new Intent(UnityPlayerActivity.this, MainActivity.class);
                 mUnityPlayer.quit();
+				downButton.setEnabled(true);
                 startActivity(intent);
 
             }
@@ -75,6 +76,7 @@ public class UnityPlayerActivity extends Activity
                             Instrumentation inst = new Instrumentation();
                             inst.sendKeyDownUpSync(KeyEvent.KEYCODE_DPAD_DOWN);
                             Thread.sleep(2000);
+							downButton.setEnabled(false);
                         }
                         catch(InterruptedException e){
                         }
@@ -90,6 +92,7 @@ public class UnityPlayerActivity extends Activity
 	@Override protected void onDestroy ()
 	{
 		mUnityPlayer.quit();
+		downButton.setEnabled(true);
 		super.onDestroy();
 	}
 
